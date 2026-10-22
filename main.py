@@ -1,7 +1,9 @@
 import pygame
+from pygame.constants import MOUSEBUTTONDOWN
 
 from board import fill_board
 from constants import *
+from coords import pixels_to_square
 from draw_board import draw_pieces, draw_squares, load_images
 
 
@@ -14,11 +16,15 @@ def main():
     piece_images = load_images()
     layout = fill_board()
     clock = pygame.time.Clock()
+    selected = None
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                     return
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                selected = pixels_to_square(event.pos)
+                print(selected)
         draw_squares(screen)
         draw_pieces(screen, piece_images, layout)
         pygame.display.flip()
