@@ -1,7 +1,7 @@
 import pygame
 
 from constants import *
-from draw_board import draw_squares
+from draw_board import draw_squares, load_images
 
 
 def main():
@@ -10,6 +10,7 @@ def main():
     print(f"Screen height: {SCREEN_SIZE}")
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_SIZE, SCREEN_SIZE))
+    piece_images = load_images()
     clock = pygame.time.Clock()
 
     while True:

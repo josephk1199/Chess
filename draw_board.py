@@ -9,7 +9,20 @@ def draw_squares(screen):
             y = row * SQUARE_SIZE
             x = col * SQUARE_SIZE
             if (row + col) % 2 == 0:
-                color = WHITE_SQUARE
+                color = LIGHT_SQUARE
             else:
-                color = BLACK_SQUARE
+                color = DARK_SQUARE
             pygame.draw.rect(screen,color,(x, y, SQUARE_SIZE, SQUARE_SIZE))
+
+def load_images():
+    piece_images = {}
+    for color in PIECE_COLORS:
+        for kind in PIECES:
+            name = f"{color}_{kind}"
+            path = "assets/" + name + ".png"
+            image = pygame.image.load(path).convert_alpha()
+            piece_images[name] = pygame.transform.scale(image, (SQUARE_SIZE, SQUARE_SIZE))
+    return piece_images
+
+def draw_pieces():
+    pass

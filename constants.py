@@ -1,7 +1,9 @@
 SQUARE_SIZE = 90
 BOARD_SIZE = 8
 SCREEN_SIZE = SQUARE_SIZE * BOARD_SIZE
-WHITE_SQUARE = "white"
-BLACK_SQUARE = "black"
+LIGHT_SQUARE = (238, 238, 210)
+DARK_SQUARE = (118, 150, 86)
 FILES = "abcdefgh"
 RANKS = "12345678"
+PIECES = ["pawn", "knight", "bishop", "rook", "queen", "king"]
+PIECE_COLORS = ["white", "black"]
