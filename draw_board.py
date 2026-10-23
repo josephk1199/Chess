@@ -1,7 +1,7 @@
 import pygame
 
 from constants import *
-
+from coords import square_to_pixels
 
 
 def draw_squares(screen):
@@ -29,10 +29,7 @@ def draw_pieces(screen, piece_images, layout):
     for square, piece in layout.items():
         if piece is None:
             continue
-        file_id = FILES.index(square[0])
-        rank_id = BOARD_SIZE - int(square[1])
-        x = file_id * SQUARE_SIZE
-        y = rank_id * SQUARE_SIZE
+        x, y = square_to_pixels(square)
         name = f"{piece.color}_{piece.kind}"
         image = piece_images[name]
         screen.blit(image, (x, y))
