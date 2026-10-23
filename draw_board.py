@@ -22,7 +22,7 @@ def load_images():
             name = f"{color}_{kind}"
             path = "assets/" + name + ".png"
             image = pygame.image.load(path).convert_alpha()
-            piece_images[name] = pygame.transform.scale(image, (SQUARE_SIZE, SQUARE_SIZE))
+            piece_images[name] = pygame.transform.smoothscale(image, (SQUARE_SIZE, SQUARE_SIZE))
     return piece_images
 
 def draw_pieces(screen, piece_images, layout):
