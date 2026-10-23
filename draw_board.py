@@ -33,3 +33,9 @@ def draw_pieces(screen, piece_images, layout):
         name = f"{piece.color}_{piece.kind}"
         image = piece_images[name]
         screen.blit(image, (x, y))
+
+def highlight_selected(screen, selected):
+    if selected is None:
+        return
+    x, y = square_to_pixels(selected)
+    pygame.draw.rect(screen,HIGHLIGHTED_COLOR,(x, y, SQUARE_SIZE, SQUARE_SIZE))

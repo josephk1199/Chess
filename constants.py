@@ -7,3 +7,4 @@ FILES = "abcdefgh"
 RANKS = "12345678"
 PIECES = ["pawn", "knight", "bishop", "rook", "queen", "king"]
 PIECE_COLORS = ["white", "black"]
+HIGHLIGHTED_COLOR = (229, 226, 41)
