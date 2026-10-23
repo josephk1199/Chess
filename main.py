@@ -1,5 +1,4 @@
 import pygame
-from pygame.constants import MOUSEBUTTONDOWN
 
 from board import fill_board
 from constants import *
@@ -17,7 +16,7 @@ def main():
     layout = fill_board()
     clock = pygame.time.Clock()
     selected = None
-    clicked = None
+    player_turn = "white"
 
     while True:
         for event in pygame.event.get():
@@ -25,10 +24,19 @@ def main():
                     return
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 clicked = pixels_to_square(event.pos)
+                piece = layout[clicked]
                 if clicked == selected:
                     selected = None
-                else:
+                elif piece is not None and piece.color == player_turn:
                     selected = clicked
+                elif selected is not None:
+                    layout[clicked] = layout[selected]
+                    layout[selected] = None
+                    selected = None
+                    if player_turn == "white":
+                        player_turn = "black"
+                    else:
+                        player_turn = "white"
                 print(selected)
 
         draw_squares(screen)
