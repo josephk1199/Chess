@@ -1,7 +1,8 @@
 import pygame
 
+from board import fill_board
 from constants import *
-from draw_board import draw_squares, load_images
+from draw_board import draw_pieces, draw_squares, load_images
 
 
 def main():
@@ -11,6 +12,7 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_SIZE, SCREEN_SIZE))
     piece_images = load_images()
+    layout = fill_board()
     clock = pygame.time.Clock()
 
     while True:
@@ -18,6 +20,7 @@ def main():
             if event.type == pygame.QUIT:
                     return
         draw_squares(screen)
+        draw_pieces(screen, piece_images, layout)
         pygame.display.flip()
         clock.tick(60)
 

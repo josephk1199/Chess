@@ -3,6 +3,7 @@ import pygame
 from constants import *
 
 
+
 def draw_squares(screen):
     for row in range(0,8):
         for col in range(0, 8):
@@ -24,5 +25,14 @@ def load_images():
             piece_images[name] = pygame.transform.scale(image, (SQUARE_SIZE, SQUARE_SIZE))
     return piece_images
 
-def draw_pieces():
-    pass
+def draw_pieces(screen, piece_images, layout):
+    for square, piece in layout.items():
+        if piece is None:
+            continue
+        file_id = FILES.index(square[0])
+        rank_id = BOARD_SIZE - int(square[1])
+        x = file_id * SQUARE_SIZE
+        y = rank_id * SQUARE_SIZE
+        name = f"{piece.color}_{piece.kind}"
+        image = piece_images[name]
+        screen.blit(image, (x, y))
