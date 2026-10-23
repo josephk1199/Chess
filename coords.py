@@ -9,5 +9,12 @@ def square_to_pixels(square):
 
     return x, y
 
-def pixels_to_square():
-    pass
+def pixels_to_square(pos):
+    x, y = pos
+    file_id = x // SQUARE_SIZE
+    rank_id = y // SQUARE_SIZE
+    file = FILES[file_id]
+    rank = BOARD_SIZE - rank_id
+    rank = str(rank)
+    result = file + rank
+    return result
