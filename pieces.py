@@ -1,4 +1,7 @@
+from tracemalloc import start
+
 from coords import *
+from directions import *
 
 
 class Piece:
@@ -39,6 +42,42 @@ class Pawn(Piece):
     def __init__(self, color) -> None:
         super().__init__(color, "pawn")
 
+    def get_moves(self,square,layout) -> list[str]:
+        moveable_spaces: list[str] = []
+        file_num, rank_num = square_to_file_rank(square)
+        if self.color == "white":
+            direction = +1
+            start_rank = 2
+        else:
+            direction = -1
+            start_rank = 7
+        new_rank = rank_num + direction
+        if not on_board(file_num, new_rank):
+            return moveable_spaces
+        new_square = file_rank_to_square(file_num, new_rank)
+        if layout[new_square] is None:
+            moveable_spaces.append(new_square)
+            if start_rank == rank_num:
+                start_direction = direction * 2
+                new_start_rank = rank_num + start_direction
+                new_start_square = file_rank_to_square(file_num, new_start_rank)
+                if layout[new_start_square] is None:
+                    moveable_spaces.append(new_start_square)
+        captureable_steps = [-1, +1]
+        for step in captureable_steps:
+            capture_file = file_num + step
+            if not on_board(capture_file, new_rank):
+                continue
+            new_captured_square = file_rank_to_square(capture_file, new_rank)
+            if self.is_own_piece(new_captured_square,layout):
+                continue
+            if layout[new_captured_square] is None:
+                continue
+            moveable_spaces.append(new_captured_square)
+        return moveable_spaces
+
+
+
 
 
 class Knight(Piece):
@@ -46,43 +85,33 @@ class Knight(Piece):
         super().__init__(color, "knight")
 
     def get_moves(self, square, layout) -> list[str]:
-        knights_moves = [
-            (-1, +2),
-            (+1, +2),
-            (-2, +1),
-            (+2, +1),
-            (-2, -1),
-            (+2, -1),
-            (-1, -2),
-            (+1, -2),
-        ]
-        return self.slide_moves(square, layout, knights_moves, False)
+        return self.slide_moves(square, layout, KNIGHTS_MOVES, False)
 
 class Bishop(Piece):
     def __init__(self, color) -> None:
         super().__init__(color, "bishop")
 
+    def get_moves(self, square, layout) -> list[str]:
+        return self.slide_moves(square, layout, BISHOPS_MOVES, True)
+
 class Rook(Piece):
     def __init__(self, color) -> None:
         super().__init__(color, "rook")
 
+    def get_moves(self, square, layout) -> list[str]:
+        return self.slide_moves(square, layout, ROOKS_MOVES, True)
+
 class Queen(Piece):
     def __init__(self, color) -> None:
         super().__init__(color, "queen")
+
+    def get_moves(self, square, layout) -> list[str]:
+        return self.slide_moves(square, layout, QUEENS_MOVES, True)
+
 
 class King(Piece):
     def __init__(self, color) -> None:
         super().__init__(color, "king")
 
     def get_moves(self, square, layout) -> list[str]:
-        kings_moves = [
-            (-1, +1),
-            (0, +1),
-            (+1, +1),
-            (-1, 0),
-            (+1, 0),
-            (-1, -1),
-            (0, -1),
-            (+1, -1),
-        ]
-        return self.slide_moves(square, layout, kings_moves, False)
+        return self.slide_moves(square, layout, KINGS_MOVES, False)
