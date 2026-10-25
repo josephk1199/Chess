@@ -14,23 +14,26 @@ class Piece:
         moveable_spaces: list[str] = []
         return moveable_spaces
 
-    def jump_moves(self, square, layout, steps):
+    def slide_moves(self, square, layout, steps, slide):
         moveable_spaces: list[str] = []
         file_num, rank_num = square_to_file_rank(square)
         for file_step, rank_step in steps:
-            new_file = file_num + file_step
-            new_rank = rank_num + rank_step
-            if not on_board(new_file, new_rank):
-                continue
-            new_square = file_rank_to_square(new_file, new_rank)
-            if self.is_own_piece(new_square,layout):
-                continue
-            else:
+            current_file = file_num
+            current_rank = rank_num
+            while True:
+                current_file = current_file + file_step
+                current_rank = current_rank + rank_step
+                if not on_board(current_file, current_rank):
+                    break
+                new_square = file_rank_to_square(current_file, current_rank)
+                if self.is_own_piece(new_square,layout):
+                    break
                 moveable_spaces.append(new_square)
+                if layout[new_square] is not None:
+                    break
+                if not slide:
+                    break
         return moveable_spaces
-
-
-
 
 class Pawn(Piece):
     def __init__(self, color) -> None:
@@ -53,7 +56,7 @@ class Knight(Piece):
             (-1, -2),
             (+1, -2),
         ]
-        return self.jump_moves(square, layout, knights_moves)
+        return self.slide_moves(square, layout, knights_moves, False)
 
 class Bishop(Piece):
     def __init__(self, color) -> None:
@@ -82,4 +85,4 @@ class King(Piece):
             (0, -1),
             (+1, -1),
         ]
-        return self.jump_moves(square, layout, kings_moves)
+        return self.slide_moves(square, layout, kings_moves, False)
