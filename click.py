@@ -10,7 +10,7 @@ def click_handling(pos, layout, selected, player_turn, moves):
     elif piece is not None and piece.color == player_turn:
         selected = clicked
         moves = piece.get_moves(clicked, layout)
-    elif selected is not None:
+    elif selected is not None and clicked in moves:
         layout[clicked] = layout[selected]
         layout[selected] = None
         selected = None
