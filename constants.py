@@ -8,5 +8,5 @@ RANKS = "12345678"
 PIECES = ["pawn", "knight", "bishop", "rook", "queen", "king"]
 PIECE_COLORS = ["white", "black"]
 HIGHLIGHTED_COLOR = (229, 226, 41)
-DOT_RADIUS = SQUARE_SIZE // 5
+DOT_RADIUS = SQUARE_SIZE // 6
 DOT_COLOR = (173, 176, 170)

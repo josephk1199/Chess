@@ -3,7 +3,13 @@ import pygame
 from board import fill_board
 from click import click_handling
 from constants import *
-from draw_board import draw_pieces, draw_squares, highlight_selected, load_images
+from draw_board import (
+    draw_dots,
+    draw_pieces,
+    draw_squares,
+    highlight_selected,
+    load_images,
+)
 
 
 def main():
@@ -18,6 +24,7 @@ def main():
     selected = None
     player_turn = "white"
     moves = []
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -29,6 +36,7 @@ def main():
         draw_squares(screen)
         highlight_selected(screen, selected)
         draw_pieces(screen, piece_images, layout)
+        draw_dots(screen, moves)
 
         pygame.display.flip()
         clock.tick(60)

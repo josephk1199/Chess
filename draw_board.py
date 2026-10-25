@@ -1,4 +1,5 @@
 import pygame
+import pygame.gfxdraw
 
 from constants import *
 from coords import square_to_pixels
@@ -39,3 +40,9 @@ def highlight_selected(screen, selected):
         return
     x, y = square_to_pixels(selected)
     pygame.draw.rect(screen,HIGHLIGHTED_COLOR,(x, y, SQUARE_SIZE, SQUARE_SIZE))
+
+def draw_dots(screen, moves):
+    for move in moves:
+        x, y = square_to_pixels(move)
+        pygame.gfxdraw.filled_circle(screen, x + SQUARE_SIZE // 2, y + SQUARE_SIZE // 2, DOT_RADIUS, DOT_COLOR)
+        pygame.gfxdraw.aacircle(screen, x + SQUARE_SIZE // 2, y + SQUARE_SIZE // 2, DOT_RADIUS, DOT_COLOR)
