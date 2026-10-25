@@ -10,6 +10,10 @@ class Piece:
         piece = layout[square]
         return piece is not None and piece.color == self.color
 
+    def get_moves(self, square, layout) -> list[str]:
+        moveable_spaces: list[str] = []
+        return moveable_spaces
+
 
 class Pawn(Piece):
     def __init__(self, color) -> None:

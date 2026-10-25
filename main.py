@@ -1,6 +1,7 @@
 import pygame
 
 from board import fill_board
+from click import click_handling
 from constants import *
 from coords import pixels_to_square
 from draw_board import draw_pieces, draw_squares, highlight_selected, load_images
@@ -23,21 +24,8 @@ def main():
             if event.type == pygame.QUIT:
                     return
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                clicked = pixels_to_square(event.pos)
-                piece = layout[clicked]
-                if clicked == selected:
-                    selected = None
-                elif piece is not None and piece.color == player_turn:
-                    selected = clicked
-                elif selected is not None:
-                    layout[clicked] = layout[selected]
-                    layout[selected] = None
-                    selected = None
-                    if player_turn == "white":
-                        player_turn = "black"
-                    else:
-                        player_turn = "white"
-                print(selected)
+                selected, player_turn = click_handling(event.pos, layout, selected, player_turn)
+
 
         draw_squares(screen)
         highlight_selected(screen, selected)
