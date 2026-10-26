@@ -36,3 +36,25 @@ def legal_moves(square, layout):
         if not in_check:
             safe_moves.append(target)
     return safe_moves
+
+def has_moves(color, layout):
+    for a_square, piece in layout.items():
+        if piece is None:
+            continue
+        if piece.color != color:
+            continue
+        if legal_moves(a_square, layout):
+            return True
+    return False
+
+def game_status(color, layout):
+    if color == "white":
+        enemy = "black"
+    else:
+        enemy = "white"
+    if has_moves(color, layout):
+        return "playing"
+    elif is_attacked(find_king(color, layout), enemy, layout):
+        return "checkmate"
+    else:
+        return "stalemate"
