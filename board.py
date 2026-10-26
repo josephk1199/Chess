@@ -23,4 +23,5 @@ def new_game():
     player_turn = "white"
     moves = []
     status = "playing"
-    return layout, selected, player_turn, moves, status
+    promotion_square = None
+    return layout, selected, player_turn, moves, status, promotion_square
