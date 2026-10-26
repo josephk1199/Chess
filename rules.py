@@ -1,9 +1,5 @@
 
-# Pawn attack not included yet...
-from pieces import King
-
-
-def is_attacked(square, by_color, layout):
+def is_attacked(square, by_color, layout): # Pawn attack not included yet...
     for a_square, piece in layout.items():
         if piece is None:
             continue
@@ -24,4 +20,19 @@ def find_king(color, layout):
     return None
 
 def legal_moves(square, layout):
-    pass
+    safe_moves = []
+    moving_piece = layout[square]
+    if moving_piece.color == "white":
+        enemy = "black"
+    else:
+        enemy = "white"
+    for target in moving_piece.get_moves(square, layout):
+        captured = layout[target]
+        layout[target] = moving_piece
+        layout[square] = None
+        in_check = is_attacked(find_king(moving_piece.color, layout), enemy, layout)
+        layout[square] = moving_piece
+        layout[target] = captured
+        if not in_check:
+            safe_moves.append(target)
+    return safe_moves
