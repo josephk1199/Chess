@@ -7,9 +7,11 @@ from draw_board import (
     draw_dots,
     draw_game_over,
     draw_pieces,
+    draw_promotion_menu,
     draw_squares,
     highlight_selected,
     load_images,
+    make_promotion_buttons,
 )
 from rules import game_status
 
@@ -25,6 +27,7 @@ def main():
     font = pygame.font.SysFont(None, 36)
     button = pygame.Rect(0,0,NEW_GAME_BUTTON_WIDTH, NEW_GAME_BUTTON_HEIGHT)
     button.center = SCREEN_CENTER, SCREEN_CENTER + 70
+    promotion_buttons = make_promotion_buttons()
     layout, selected, player_turn, moves, status, promotion_square = new_game()
 
     while True:
@@ -46,6 +49,7 @@ def main():
         draw_pieces(screen, piece_images, layout)
         draw_dots(screen, moves)
         draw_game_over(screen, font, status, player_turn, button)
+        draw_promotion_menu(screen, piece_images, promotion_square, layout, promotion_buttons)
         pygame.display.flip()
         clock.tick(60)
 

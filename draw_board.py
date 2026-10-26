@@ -3,6 +3,7 @@ import pygame.gfxdraw
 
 from constants import *
 from coords import square_to_pixels
+from pieces import Bishop, Knight, Queen, Rook
 
 
 def draw_squares(screen):
@@ -70,3 +71,22 @@ def draw_game_over(screen, font, status, player_turn, button):
     text_spot.center = panel.centerx, (panel.centery - 40)
     screen.blit(words, text_spot)
     screen.blit(button_words, bw_spot)
+
+def make_promotion_buttons():
+    promotion_buttons = {}
+    start_x = SCREEN_CENTER - (SQUARE_SIZE * 2)
+    for i, piece_class in enumerate([Queen, Rook, Bishop, Knight ]):
+        promotion_buttons[piece_class] = pygame.Rect(start_x + i * SQUARE_SIZE, 0, SQUARE_SIZE, SQUARE_SIZE)
+        promotion_buttons[piece_class].centery = SCREEN_CENTER
+    return promotion_buttons
+
+def draw_promotion_menu(screen, piece_images, promotion_square, layout, promotion_buttons):
+    if promotion_square is None:
+        return
+    promoting_color = layout[promotion_square].color
+
+    for piece_class, rect in promotion_buttons.items():
+        pygame.draw.rect(screen, PROMOTION_BOX_COLOR, rect)
+        kind = piece_class(promoting_color).kind
+        button_name = f"{promoting_color}_{kind}"
+        screen.blit(piece_images[button_name], rect)
