@@ -16,6 +16,9 @@ class Piece:
         moveable_spaces: list[str] = []
         return moveable_spaces
 
+    def get_attacks(self, square, layout):
+        return self.get_moves(square, layout)
+
     def slide_moves(self, square, layout, steps, slide):
         moveable_spaces: list[str] = []
         file_num, rank_num = square_to_file_rank(square)
@@ -40,6 +43,23 @@ class Piece:
 class Pawn(Piece):
     def __init__(self, color) -> None:
         super().__init__(color, "pawn")
+
+    def get_attacks(self, square, layout):
+        attacked_spaces: list[str] = []
+        file_num, rank_num = square_to_file_rank(square)
+        if self.color == "white":
+            direction = +1
+        else:
+            direction = -1
+        new_rank = rank_num + direction
+        for step in [-1, +1]:
+            attack_file = file_num + step
+            if not on_board(attack_file, new_rank):
+                continue
+            attack_square = file_rank_to_square(attack_file, new_rank)
+            attacked_spaces.append(attack_square)
+        return attacked_spaces
+
 
     def get_moves(self,square,layout, en_passant_square = None) -> list[str]:
         moveable_spaces: list[str] = []

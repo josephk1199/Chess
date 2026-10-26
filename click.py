@@ -12,7 +12,7 @@ def click_handling(pos, layout, selected, player_turn, moves, promotion_square, 
         selected = clicked
         moves = legal_moves(clicked, layout, en_passant_square)
     elif selected is not None and clicked in moves:
-        _, start_rank = square_to_file_rank(selected)
+        start_file, start_rank = square_to_file_rank(selected)
         layout[clicked] = layout[selected]
         layout[selected] = None
         layout[clicked].has_moved = True
@@ -22,6 +22,21 @@ def click_handling(pos, layout, selected, player_turn, moves, promotion_square, 
         if layout[clicked].kind == "pawn" and clicked == en_passant_square:
             passed_square = file_rank_to_square(file, start_rank)
             layout[passed_square] = None
+        if layout[clicked].kind == "king" and abs(file - start_file) == 2:
+            if file > start_file:
+                #Kingside
+                rook_from = "h" + str(start_rank)
+                rook_to = "f" + str(start_rank)
+            else:
+                #Queenside
+                rook_from = "a" + str(start_rank)
+                rook_to = "d" + str(start_rank)
+
+            #Rook Move
+            layout[rook_to] = layout[rook_from]
+            layout[rook_from] = None
+            layout[rook_to].has_moved = True
+
         if layout[clicked].kind == "pawn"  and abs(rank - start_rank) == 2:
             en_passant_square = file_rank_to_square(file, (start_rank + rank) // 2)
         else:
