@@ -2,6 +2,10 @@
 
 A two-player chess game written in Python with [pygame](https://www.pygame.org/). Both players share one window and take turns by clicking pieces on the board. The full rules of chess are implemented: every piece's movement, check, checkmate, stalemate, castling, en passant, and pawn promotion.
 
+<p align="center">
+  <img src="assets/screenshot.png" alt="The starting position in the game window" width="560">
+</p>
+
 ## What it does
 
 - Draws an 8×8 board with piece images and runs at 60 FPS
