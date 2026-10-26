@@ -1,7 +1,7 @@
 import pygame
 
 from board import new_game
-from click import click_handling
+from click import click_handling, promotion_click
 from constants import *
 from draw_board import (
     draw_dots,
@@ -40,6 +40,9 @@ def main():
                 print(moves)
                 print(status)
                 print(promotion_square)
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and promotion_square is not None:
+                promotion_square, player_turn = promotion_click(event.pos, layout, promotion_square, promotion_buttons, player_turn)
+                status = game_status(player_turn, layout)
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and status != "playing" and button.collidepoint(event.pos) or event.type == pygame.KEYDOWN and event.key == pygame.K_r and event.mod & pygame.KMOD_META:
                 layout, selected, player_turn, moves, status, promotion_square = new_game()
                 print("New Game")

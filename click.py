@@ -25,3 +25,17 @@ def click_handling(pos, layout, selected, player_turn, moves, promotion_square):
             else:
                 player_turn = "white"
     return selected, player_turn, moves, promotion_square
+
+def promotion_click(pos, layout, promotion_square, promotion_buttons, player_turn):
+    for piece_class, rect in promotion_buttons.items():
+        if rect.collidepoint(pos):
+            piece_color = layout[promotion_square].color
+            new_piece = piece_class(piece_color)
+            layout[promotion_square] = new_piece
+            promotion_square = None
+            if player_turn == "white":
+                player_turn = "black"
+            else:
+                player_turn = "white"
+            break
+    return promotion_square, player_turn
