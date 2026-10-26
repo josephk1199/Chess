@@ -1,4 +1,5 @@
 from coords import *
+from rules import legal_moves
 
 
 def click_handling(pos, layout, selected, player_turn, moves):
@@ -9,7 +10,7 @@ def click_handling(pos, layout, selected, player_turn, moves):
         moves = []
     elif piece is not None and piece.color == player_turn:
         selected = clicked
-        moves = piece.get_moves(clicked, layout)
+        moves = legal_moves(clicked, layout)
     elif selected is not None and clicked in moves:
         layout[clicked] = layout[selected]
         layout[selected] = None
