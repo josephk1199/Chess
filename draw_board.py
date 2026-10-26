@@ -47,7 +47,7 @@ def draw_dots(screen, moves):
         pygame.gfxdraw.filled_circle(screen, x + SQUARE_SIZE // 2, y + SQUARE_SIZE // 2, DOT_RADIUS, DOT_COLOR)
         pygame.gfxdraw.aacircle(screen, x + SQUARE_SIZE // 2, y + SQUARE_SIZE // 2, DOT_RADIUS, DOT_COLOR)
 
-def draw_game_over(screen, font, status, player_turn):
+def draw_game_over(screen, font, status, player_turn, button):
 
     if status == "playing":
         return
@@ -62,6 +62,11 @@ def draw_game_over(screen, font, status, player_turn):
     panel = pygame.Rect(0, 0, GAME_OVER_PANEL_SIZE, GAME_OVER_PANEL_SIZE)
     panel.center = (SCREEN_CENTER, SCREEN_CENTER)
     pygame.draw.rect(screen, GAME_OVER_PANEL_COLOR, panel)
+    pygame.draw.rect(screen, NEW_GAME_BUTTON_COLOR, button)
+    button_words = font.render("NEW GAME", True, "black")
+    bw_spot = button_words.get_rect()
+    bw_spot.center = button.center
     text_spot = words.get_rect()
     text_spot.center = panel.centerx, (panel.centery - 40)
     screen.blit(words, text_spot)
+    screen.blit(button_words, bw_spot)

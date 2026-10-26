@@ -16,3 +16,11 @@ def fill_board():
         board_dict[file + "8"] = piece_type("black")
 
     return board_dict
+
+def new_game():
+    layout = fill_board()
+    selected = None
+    player_turn = "white"
+    moves = []
+    status = "playing"
+    return layout, selected, player_turn, moves, status

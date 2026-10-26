@@ -1,6 +1,6 @@
 import pygame
 
-from board import fill_board
+from board import new_game
 from click import click_handling
 from constants import *
 from draw_board import (
@@ -11,7 +11,7 @@ from draw_board import (
     highlight_selected,
     load_images,
 )
-from rules import game_status, has_moves
+from rules import game_status
 
 
 def main():
@@ -21,13 +21,11 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_SIZE, SCREEN_SIZE))
     piece_images = load_images()
-    layout = fill_board()
     clock = pygame.time.Clock()
     font = pygame.font.SysFont(None, 36)
-    selected = None
-    player_turn = "white"
-    moves = []
-    status = "playing"
+    button = pygame.Rect(0,0,NEW_GAME_BUTTON_WIDTH, NEW_GAME_BUTTON_HEIGHT)
+    button.center = SCREEN_CENTER, SCREEN_CENTER + 70
+    layout, selected, player_turn, moves, status = new_game()
 
     while True:
         for event in pygame.event.get():
@@ -38,12 +36,15 @@ def main():
                 status = game_status(player_turn, layout)
                 print(moves)
                 print(status)
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and status != "playing" and button.collidepoint(event.pos) or event.type == pygame.KEYDOWN and event.key == pygame.K_r and event.mod and pygame.KMOD_META:
+                layout, selected, player_turn, moves, status = new_game()
+                print("New Game")
 
         draw_squares(screen)
         highlight_selected(screen, selected)
         draw_pieces(screen, piece_images, layout)
         draw_dots(screen, moves)
-        draw_game_over(screen, font, status, player_turn)
+        draw_game_over(screen, font, status, player_turn, button)
 
         pygame.display.flip()
         clock.tick(60)
