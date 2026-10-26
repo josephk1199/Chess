@@ -6,6 +6,7 @@ class Piece:
     def __init__(self, color, kind) -> None:
         self.color = color
         self.kind = kind
+        self.has_moved = False
 
     def is_own_piece(self, square, layout) -> bool:
         piece = layout[square]

@@ -15,6 +15,7 @@ def click_handling(pos, layout, selected, player_turn, moves, promotion_square, 
         _, start_rank = square_to_file_rank(selected)
         layout[clicked] = layout[selected]
         layout[selected] = None
+        layout[clicked].has_moved = True
         selected = None
         moves = []
         file, rank = square_to_file_rank(clicked)
