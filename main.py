@@ -36,7 +36,7 @@ def main():
                     return
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and status == "playing" and promotion_square is None:
                 selected, player_turn, moves, promotion_square, en_passant_square = click_handling(event.pos, layout, selected, player_turn, moves, promotion_square, en_passant_square)
-                status = game_status(player_turn, layout)
+                status = game_status(player_turn, layout, en_passant_square)
                 print(moves)
                 print(status)
                 print(promotion_square)
