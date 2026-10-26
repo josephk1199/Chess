@@ -10,6 +10,7 @@ from draw_board import (
     highlight_selected,
     load_images,
 )
+from rules import game_status, has_moves
 
 
 def main():
@@ -24,14 +25,17 @@ def main():
     selected = None
     player_turn = "white"
     moves = []
+    status = "playing"
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                     return
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and status == "playing":
                 selected, player_turn, moves = click_handling(event.pos, layout, selected, player_turn, moves)
+                status = game_status(player_turn, layout)
                 print(moves)
+                print(status)
 
         draw_squares(screen)
         highlight_selected(screen, selected)
