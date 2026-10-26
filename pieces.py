@@ -40,7 +40,7 @@ class Pawn(Piece):
     def __init__(self, color) -> None:
         super().__init__(color, "pawn")
 
-    def get_moves(self,square,layout) -> list[str]:
+    def get_moves(self,square,layout, en_passant_square = None) -> list[str]:
         moveable_spaces: list[str] = []
         file_num, rank_num = square_to_file_rank(square)
         if self.color == "white":
@@ -69,7 +69,7 @@ class Pawn(Piece):
             new_captured_square = file_rank_to_square(capture_file, new_rank)
             if self.is_own_piece(new_captured_square,layout):
                 continue
-            if layout[new_captured_square] is None:
+            if layout[new_captured_square] is None and new_captured_square != en_passant_square:
                 continue
             moveable_spaces.append(new_captured_square)
         return moveable_spaces
