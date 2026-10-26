@@ -5,6 +5,7 @@ from click import click_handling
 from constants import *
 from draw_board import (
     draw_dots,
+    draw_game_over,
     draw_pieces,
     draw_squares,
     highlight_selected,
@@ -22,6 +23,7 @@ def main():
     piece_images = load_images()
     layout = fill_board()
     clock = pygame.time.Clock()
+    font = pygame.font.SysFont(None, 36)
     selected = None
     player_turn = "white"
     moves = []
@@ -41,6 +43,7 @@ def main():
         highlight_selected(screen, selected)
         draw_pieces(screen, piece_images, layout)
         draw_dots(screen, moves)
+        draw_game_over(screen, font, status, player_turn)
 
         pygame.display.flip()
         clock.tick(60)

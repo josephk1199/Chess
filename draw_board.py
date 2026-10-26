@@ -46,3 +46,22 @@ def draw_dots(screen, moves):
         x, y = square_to_pixels(move)
         pygame.gfxdraw.filled_circle(screen, x + SQUARE_SIZE // 2, y + SQUARE_SIZE // 2, DOT_RADIUS, DOT_COLOR)
         pygame.gfxdraw.aacircle(screen, x + SQUARE_SIZE // 2, y + SQUARE_SIZE // 2, DOT_RADIUS, DOT_COLOR)
+
+def draw_game_over(screen, font, status, player_turn):
+
+    if status == "playing":
+        return
+    if status == "stalemate":
+        words = font.render("Game Over - Stalemate", True, "black")
+    else:
+        if player_turn == "white":
+            color = "black"
+        else:
+            color = "white"
+        words = font.render(f"Checkmate {color.capitalize()} Wins!", True, "black")
+    panel = pygame.Rect(0, 0, GAME_OVER_PANEL_SIZE, GAME_OVER_PANEL_SIZE)
+    panel.center = (SCREEN_CENTER, SCREEN_CENTER)
+    pygame.draw.rect(screen, GAME_OVER_PANEL_COLOR, panel)
+    text_spot = words.get_rect()
+    text_spot.center = panel.centerx, (panel.centery - 40)
+    screen.blit(words, text_spot)
