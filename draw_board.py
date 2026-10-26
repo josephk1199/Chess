@@ -6,8 +6,8 @@ from coords import square_to_pixels
 
 
 def draw_squares(screen):
-    for row in range(0,8):
-        for col in range(0, 8):
+    for row in range(8):
+        for col in range(8):
             y = row * SQUARE_SIZE
             x = col * SQUARE_SIZE
             if (row + col) % 2 == 0:

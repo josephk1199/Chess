@@ -1,5 +1,3 @@
-from tracemalloc import start
-
 from coords import *
 from directions import *
 
