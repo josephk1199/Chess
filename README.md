@@ -15,6 +15,7 @@ A two-player chess game written in Python with [pygame](https://www.pygame.org/)
 - **Castling** kingside and queenside, as long as neither the king nor that rook has moved, the squares between them are empty, and the king isn't in, passing through, or landing on check
 - **En passant** captures, available only on the move immediately after an enemy pawn's two-square advance
 - **Pawn promotion**: when a pawn reaches the last rank a menu pops up and you choose a queen, rook, bishop, or knight
+- **Auto-flipping board**: half a second after each move the board rotates so the player whose turn it is always sees their own pieces at the bottom
 - **Checkmate** and **stalemate** are detected after every move and a game-over panel appears with a **NEW GAME** button
 - Press **⌘ R** (Mac) at any time to start a new game
 
@@ -50,7 +51,7 @@ Run it from the repository root; the piece images are loaded from the `assets/` 
 ## How to play
 
 1. White moves first. Click a white piece, then click one of the dotted squares.
-2. Turns alternate automatically. Clicking an enemy piece does nothing until it's that side's turn.
+2. Turns alternate automatically. After a short pause the board flips to face the next player, and clicking an enemy piece does nothing until it's that side's turn.
 3. To castle, click the king and then the square two files toward the rook (`g1`/`c1` for White, `g8`/`c8` for Black). The rook jumps over on its own.
 4. When a pawn reaches the far side, pick a piece from the promotion menu to continue.
 5. When the game ends, click **NEW GAME** on the panel (or press **⌘ R**) to reset the board.
@@ -66,7 +67,7 @@ Run it from the repository root; the piece images are loaded from the `assets/` 
 | `directions.py` | The step patterns (file, rank offsets) for knights, bishops, rooks, queens, and kings. |
 | `rules.py` | The chess rules layer: detects attacked squares, finds kings, filters raw moves down to legal moves by simulating each one, handles castling, and decides whether the game is still going, checkmate, or stalemate. |
 | `click.py` | Translates mouse clicks into selecting, moving, capturing, castling, en passant, and promotion. |
-| `coords.py` | Converts between pixel positions, square names like `"e4"`, and numeric file/rank indexes. |
+| `coords.py` | Converts between pixel positions, square names like `"e4"`, and numeric file/rank indexes, accounting for whether the board is currently flipped. |
 | `draw_board.py` | Everything that gets drawn: squares, piece images, selection highlight, move dots, the game-over panel, and the promotion menu. |
 | `assets/` | PNG images for all twelve pieces. |
 
@@ -77,6 +78,8 @@ The board is a plain dictionary with 64 keys (`"a1"` through `"h8"`) whose value
 Raw moves are not the same as legal moves. `rules.legal_moves()` takes each candidate move, plays it on the board, checks whether the moving side's king is now attacked, and then undoes the move. Only the moves that don't leave the king in check are returned, which is what gives the game correct handling of pins, checks, and forced responses without any special-case code.
 
 After every move `rules.game_status()` asks whether the side to move has any legal moves left. If it does, play continues; if it doesn't, the game is checkmate when the king is attacked and stalemate when it isn't.
+
+The game state never changes when the board flips. Square names stay the same; only `coords.py`'s conversion between squares and pixels is mirrored, so drawing and click handling both go through the same `flipped` flag and the rules code never knows which way the board is facing.
 
 ## Not implemented (yet)
 
