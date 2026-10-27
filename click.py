@@ -2,8 +2,8 @@ from coords import *
 from rules import legal_moves
 
 
-def click_handling(pos, layout, selected, player_turn, moves, promotion_square, en_passant_square):
-    clicked = pixels_to_square(pos)
+def click_handling(pos, layout, selected, player_turn, moves, promotion_square, en_passant_square, flipped=False):
+    clicked = pixels_to_square(pos, flipped)
     piece = layout[clicked]
     if clicked == selected:
         selected = None

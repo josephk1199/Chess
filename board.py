@@ -25,4 +25,6 @@ def new_game():
     status = "playing"
     promotion_square = None
     en_passant_square = None
-    return layout, selected, player_turn, moves, status, promotion_square, en_passant_square
+    flipped = False
+    flip_due = None
+    return layout, selected, player_turn, moves, status, promotion_square, en_passant_square, flipped, flip_due

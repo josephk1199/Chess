@@ -27,24 +27,24 @@ def load_images():
             piece_images[name] = pygame.transform.smoothscale(image, (SQUARE_SIZE, SQUARE_SIZE))
     return piece_images
 
-def draw_pieces(screen, piece_images, layout):
+def draw_pieces(screen, piece_images, layout, flipped=False):
     for square, piece in layout.items():
         if piece is None:
             continue
-        x, y = square_to_pixels(square)
+        x, y = square_to_pixels(square, flipped)
         name = f"{piece.color}_{piece.kind}"
         image = piece_images[name]
         screen.blit(image, (x, y))
 
-def highlight_selected(screen, selected):
+def highlight_selected(screen, selected, flipped=False):
     if selected is None:
         return
-    x, y = square_to_pixels(selected)
+    x, y = square_to_pixels(selected,flipped)
     pygame.draw.rect(screen,HIGHLIGHTED_COLOR,(x, y, SQUARE_SIZE, SQUARE_SIZE))
 
-def draw_dots(screen, moves):
+def draw_dots(screen, moves, flipped=False):
     for move in moves:
-        x, y = square_to_pixels(move)
+        x, y = square_to_pixels(move, flipped)
         pygame.gfxdraw.filled_circle(screen, x + SQUARE_SIZE // 2, y + SQUARE_SIZE // 2, DOT_RADIUS, DOT_COLOR)
         pygame.gfxdraw.aacircle(screen, x + SQUARE_SIZE // 2, y + SQUARE_SIZE // 2, DOT_RADIUS, DOT_COLOR)
 

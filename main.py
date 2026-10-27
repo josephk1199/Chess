@@ -28,29 +28,38 @@ def main():
     button = pygame.Rect(0,0,NEW_GAME_BUTTON_WIDTH, NEW_GAME_BUTTON_HEIGHT)
     button.center = SCREEN_CENTER, SCREEN_CENTER + 70
     promotion_buttons = make_promotion_buttons()
-    layout, selected, player_turn, moves, status, promotion_square, en_passant_square = new_game()
+    layout, selected, player_turn, moves, status, promotion_square, en_passant_square, flipped, flip_due = new_game()
 
     while True:
+        if flip_due is not None and pygame.time.get_ticks() >= flip_due:
+            flipped = player_turn == "black"
+            flip_due = None
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                     return
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and status == "playing" and promotion_square is None:
-                selected, player_turn, moves, promotion_square, en_passant_square = click_handling(event.pos, layout, selected, player_turn, moves, promotion_square, en_passant_square)
+                turn_before = player_turn
+                selected, player_turn, moves, promotion_square, en_passant_square = click_handling(event.pos, layout, selected, player_turn, moves, promotion_square, en_passant_square, flipped)
+                if player_turn != turn_before:
+                    flip_due = pygame.time.get_ticks() + 500
                 status = game_status(player_turn, layout, en_passant_square)
                 print(moves)
                 print(status)
                 print(promotion_square)
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and promotion_square is not None:
+                turn_before = player_turn
                 promotion_square, player_turn = promotion_click(event.pos, layout, promotion_square, promotion_buttons, player_turn)
+                if player_turn != turn_before:
+                    flip_due = pygame.time.get_ticks() + 500
                 status = game_status(player_turn, layout)
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and status != "playing" and button.collidepoint(event.pos) or event.type == pygame.KEYDOWN and event.key == pygame.K_r and event.mod & pygame.KMOD_META:
-                layout, selected, player_turn, moves, status, promotion_square, en_passant_square = new_game()
+                layout, selected, player_turn, moves, status, promotion_square, en_passant_square, flipped, flip_due = new_game()
                 print("New Game")
 
         draw_squares(screen)
-        highlight_selected(screen, selected)
-        draw_pieces(screen, piece_images, layout)
-        draw_dots(screen, moves)
+        highlight_selected(screen, selected, flipped)
+        draw_pieces(screen, piece_images, layout, flipped)
+        draw_dots(screen, moves, flipped)
         draw_game_over(screen, font, status, player_turn, button)
         draw_promotion_menu(screen, piece_images, promotion_square, layout, promotion_buttons)
         pygame.display.flip()

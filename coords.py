@@ -1,22 +1,30 @@
 from constants import *
 
 
-def square_to_pixels(square) -> tuple[int, int]:
-    file_id = FILES.index(square[0])
-    rank_id = BOARD_SIZE - int(square[1])
-    x = file_id * SQUARE_SIZE
-    y = rank_id * SQUARE_SIZE
-
+def square_to_pixels(square, flipped = False) -> tuple[int, int]:
+    file, rank = square_to_file_rank(square)
+    if flipped:
+        col = (BOARD_SIZE - 1) - file
+        row = rank - 1
+    else:
+        col = file
+        row = BOARD_SIZE - rank
+    x = col* SQUARE_SIZE
+    y = row * SQUARE_SIZE
     return x, y
 
-def pixels_to_square(pos) -> str:
+def pixels_to_square(pos, flipped = False) -> str:
     x, y = pos
-    file_id = x // SQUARE_SIZE
-    rank_id = y // SQUARE_SIZE
+    col = x // SQUARE_SIZE
+    row = y // SQUARE_SIZE
+    if flipped:
+        file_id = (BOARD_SIZE - 1) - col
+        rank_num = row + 1
+    else:
+        file_id = col
+        rank_num = BOARD_SIZE - row
     file = FILES[file_id]
-    rank = BOARD_SIZE - rank_id
-    rank = str(rank)
-    result = file + rank
+    result = file + str(rank_num)
     return result
 
 def square_to_file_rank(square) -> tuple[int, int]:
